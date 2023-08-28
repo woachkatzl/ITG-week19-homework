@@ -261,6 +261,21 @@ document.querySelector('.b-15').addEventListener('click', makeFifteen);
 
 function makeSixteen() {
 	//Ваш код
+	const putData = {
+		title: 'Заголовок',
+		body: 'Текст поста',
+	};
+
+	fetch('https://jsonplaceholder.typicode.com/posts/1', {
+		method: 'PUT',
+		body: JSON.stringify(putData),
+		headers: {
+			'Content-Type': 'application/json',
+		},
+	})
+		.then(res => res.json())
+		.then(console.log)
+		.catch(err => console.log("Ошибка: ", err));
 }
 
 document.querySelector('.b-16').addEventListener('click', makeSixteen);
@@ -270,15 +285,37 @@ document.querySelector('.b-16').addEventListener('click', makeSixteen);
 
 const makeSeventeen = () => {
 	//Ваш код
+	fetch('https://jsonplaceholder.typicode.com/posts/1', {
+		method: 'DELETE',
+	})
+		.then(res => res.json())
+		.then(console.log)
+		.catch(err => console.log("Ошибка: ", err));
 };
 
 //добавьте слушатель события
+document.querySelector('.b-17').addEventListener('click', makeSeventeen);
 
 //Задание 18
 //Создайте функцию makeEighteen, которая должна сделать POST-запрос на адрес https://jsonplaceholder.typicode.com/photos с помощью функции fetch(). ыведите ответ с сервера в консоль.
 
 function makeEighteen() {
 	//Ваш код
+	const postData = {
+		title: "Название изображения",
+		url: "https://example.com/image.jpg",
+	}
+
+	fetch("https://jsonplaceholder.typicode.com/photos", {
+		method: "POST",
+		body: JSON.stringify(postData),
+		headers: {
+			"Content-type": "application/json",
+		}
+	})
+		.then(res => res.json())
+		.then(console.log)
+		.catch(err => console.log("Ошибка: ", err));
 }
 
 document.querySelector('.b-18').addEventListener('click', makeEighteen);
@@ -288,6 +325,23 @@ document.querySelector('.b-18').addEventListener('click', makeEighteen);
 
 function makeNineteen() {
 	//Ваш код
+	const postData = {
+		"name": "Кот Учёный",
+		"username": "kitty",
+		"email": "kitty@example.com",
+		"phone": "123-456-7890"
+	};
+
+	fetch("https://jsonplaceholder.typicode.com/users", {
+		method: "POST",
+		body: JSON.stringify(postData),
+		headers: {
+			"Content-type": "application/json",
+		},
+	})
+		.then(res => res.json())
+		.then(console.log)
+		.catch(err => console.log("Ошибка: ", err));
 }
 
 document.querySelector('.b-19').addEventListener('click', makeNineteen);
@@ -297,6 +351,23 @@ document.querySelector('.b-19').addEventListener('click', makeNineteen);
 
 function makeTwenty() {
 	//Ваш код
+	const postData = {
+		"name": "Золотая рыбка",
+		"email": "goldfish@example.com",
+		"body": "Гав-гав!",
+		"postId": 1
+	};
+
+	fetch("https://jsonplaceholder.typicode.com/comments", {
+		method: "POST",
+		body: JSON.stringify(postData),
+		headers: {
+			"Content-type": "application/json",
+		},
+	})
+		.then(res => res.json())
+		.then(console.log)
+		.catch(err => console.log("Ошибка: ", err));
 }
 
 document.querySelector('.b-20').addEventListener('click', makeTwenty);
@@ -306,6 +377,23 @@ document.querySelector('.b-20').addEventListener('click', makeTwenty);
 
 function makeTwentyOne() {
 	//Ваш код
+	const putData = {
+		"name": "Золотая рыбка",
+		"email": "goldfish@example.com",
+		"body": "Буль-буль!",
+		"postId": 1
+	};
+
+	fetch("https://jsonplaceholder.typicode.com/comments/1", {
+		method: "PUT",
+		body: JSON.stringify(putData),
+		headers: {
+			"Content-type": "application/json",
+		},
+	})
+		.then(res => res.json())
+		.then(console.log)
+		.catch(err => console.log("Ошибка: ", err));
 }
 
 document.querySelector('.b-21').addEventListener('click', makeTwentyOne);
@@ -316,6 +404,30 @@ document.querySelector('.b-21').addEventListener('click', makeTwentyOne);
 
 function makePromiseAllOne() {
 	//Ваш код
+	// Простой вариант решения
+	/* 	fetch("https://jsonplaceholder.typicode.com/posts/1")
+			.then(res => res.json())
+			.then(console.log)
+			.catch(err => console.log("Ошибка: ", err));
+	
+		fetch("https://jsonplaceholder.typicode.com/comments/1")
+			.then(res => res.json())
+			.then(console.log)
+			.catch(err => console.log("Ошибка: ", err)); */
+
+	// Ниже попробовала сделать с помощью Promise.all. Вроде получилось, но если честно, нагуглила решение, и всё равно не особо понимаю, как оно работает.. Даже прописаа шаги, но всё равно сложно понять. Сложнее всего понять, где проходит грань между промисом и его разрешенным результатом.
+
+	const urls = ["https://jsonplaceholder.typicode.com/posts/1", "https://jsonplaceholder.typicode.com/comments/1"];
+	const responsesPromises = urls.map(url => fetch(url)); // Получаю массив из промисов, которые должны разрешиться в ответы, не сами ответы, да?
+	// Получается промисы внутри этого массива не разрешатся пока я не использую Promise.all() с ними? Но если мы используем fetch() сам по себе, он разрешается, и мы может then(). Как так?)
+
+	Promise.all(responsesPromises) // Не совсем понимаю, что здесь происходит. Насколько я поняла, читая статьи, Promise.all([prom1, prom2]) должен вернуть один промис, который разрешится, когда входные промисы разрешатся (когда получим объекты ответов с серверов?)
+		.then(responses => { // в деббаге responses показывается как массив ответов сервера. Этот массив - разрешение того промиса, полученного в результате Promise.all([prom1, prom2])? Получается, он разрешается в массив тоже?
+			const responsesData = responses.map(response => response.json()); //из массива ответов делаю массив промисов обработанных ответов в формате JSON
+			return Promise.all(responsesData) // С помощью return возвращаю результат промиса, полученного в результате обработки двух промисов, разрешившихся в JSON-ответы. Результат получается массив разрешившихся JSON-ответов.
+		})
+		.then(responsesData => responsesData.forEach(response => console.log(response)))
+		.catch(err => console.log("Ошибка: ", err));
 }
 
 document.querySelector('.b-22').addEventListener('click', makePromiseAllOne);
@@ -326,11 +438,18 @@ document.querySelector('.b-22').addEventListener('click', makePromiseAllOne);
 
 async function makePromiseAllTwo() {
 	try {
-		const response1 = await fetch('https://jsonplaceholder.typicode.com/users/1');
-		const data1 = await response1.json();
-		console.log(data1);
+		/* 		const response1 = await fetch('https://jsonplaceholder.typicode.com/users/1');
+				const data1 = await response1.json();
+				console.log(data1); */
 
 		//Ваш код
+		const links = ["https://jsonplaceholder.typicode.com/users/1", "https://jsonplaceholder.typicode.com/posts/1", "https://jsonplaceholder.typicode.com/comments/1"];
+
+		for (let link of links) {
+			const response = await fetch(link);
+			const data = await response.json();
+			console.log(data);
+		}
 	} catch (error) {
 		console.error('Ошибка при выполнении запросов:', error);
 	}
@@ -340,6 +459,8 @@ document.querySelector('.b-23').addEventListener('click', makePromiseAllTwo);
 
 //Задание 24
 //Какое имя выведется в консоль?
+// Ответ: Вася
+// Но видно, что переменная name, объявленная второй не подсвечена)) Нельзя повторно объявить переменную с существующим названием.
 
 const makeTwentyFour = () => {
 	let name = 'Вася';
@@ -354,9 +475,11 @@ const makeTwentyFour = () => {
 };
 
 //добавьте слушатель события
+document.querySelector('.b-24').addEventListener('click', makeTwentyFour);
 
 //Задание 25
 //В каком порядке числа выведутся в консоль?
+//Ответ: 1, 3, 2
 
 function makeTwentyFive() {
 	console.log(1);
@@ -370,12 +493,14 @@ function makeTwentyFive() {
 }
 
 //добавьте слушатель события
+document.querySelector('.b-25').addEventListener('click', makeTwentyFive);
 
 //Задание 26
 //Создайте функцию makeTwentySix, должна использовать `setTimeout` для отображения в консоли сообщения "Прошло 5 секунд" через 5 секунд. Вызывается функция по кнопке Задание 26.
 
 function makeTwentySix() {
 	//Ваш код
+	setTimeout(() => console.log("Прошло 5 секунд"), 5000);
 }
 
 document.querySelector('.b-26').addEventListener('click', makeTwentySix);
@@ -385,6 +510,7 @@ document.querySelector('.b-26').addEventListener('click', makeTwentySix);
 
 function makeTwentySeven() {
 	//Ваш код
+	setTimeout(() => console.log("Прошло 2 секунды"), 2000);
 }
 
 document.querySelector('.b-27').addEventListener('click', makeTwentySeven);
@@ -394,6 +520,7 @@ document.querySelector('.b-27').addEventListener('click', makeTwentySeven);
 
 function makeTwentyEight() {
 	//Ваш код
+	setInterval(() => console.log("Прошло 3 секунды"), 3000);
 }
 
 document.querySelector('.b-28').addEventListener('click', makeTwentyEight);
@@ -403,6 +530,7 @@ document.querySelector('.b-28').addEventListener('click', makeTwentyEight);
 
 function makeTwentyNine() {
 	//Ваш код
+	setInterval(() => console.log("Прошло 2 секунды"), 2000);
 }
 
 document.querySelector('.b-29').addEventListener('click', makeTwentyNine);
@@ -412,6 +540,7 @@ document.querySelector('.b-29').addEventListener('click', makeTwentyNine);
 
 function makeThirty() {
 	//Ваш код
+	setInterval(() => console.log("Прошло 5 секунд"), 5000);
 }
 
 document.querySelector('.b-30').addEventListener('click', makeThirty);
