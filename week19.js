@@ -3,6 +3,10 @@
 
 function makeOne() {
 	//Ваш код
+	fetch('https://catfact.ninja/fact')
+		.then(res => res.json())
+		.then(console.log)
+		.catch(err => console.log('Ошибка:', err));
 }
 
 document.querySelector('.b-1').addEventListener('click', makeOne);
@@ -12,6 +16,17 @@ document.querySelector('.b-1').addEventListener('click', makeOne);
 
 function makeTwo() {
 	//Ваш код
+	fetch('https://emojihub.yurace.pro/api/random/group/face-positive')
+		.then(res => res.json())
+		.then(data => {
+			const parent = document.querySelector("#result2");
+			const paragraph = document.createElement("p");
+			paragraph.innerHTML = data.htmlCode;
+			parent.append(paragraph);
+
+			return data;
+		})
+		.catch(err => console.log('Ошибка:', err));
 }
 
 document.querySelector('.b-2').addEventListener('click', makeTwo);
@@ -21,6 +36,9 @@ document.querySelector('.b-2').addEventListener('click', makeTwo);
 
 function makeThree() {
 	//Ваш код
+	fetch('https://www.boredapi.com/api/activity')
+		.then(console.log)
+		.catch(err => console.log('Ошибка:', err));
 }
 
 document.querySelector('.b-3').addEventListener('click', makeThree);
@@ -30,6 +48,10 @@ document.querySelector('.b-3').addEventListener('click', makeThree);
 
 function makeFour() {
 	//Ваш код
+	fetch('https://www.boredapi.com/api/activity')
+		.then(res => res.json())
+		.then(data => console.log(`Activity: ${data.activity}`))
+		.catch(err => console.log('Ошибка:', err));
 }
 
 document.querySelector('.b-4').addEventListener('click', makeFour);
@@ -39,15 +61,31 @@ document.querySelector('.b-4').addEventListener('click', makeFour);
 
 function makeFive() {
 	//Ваш код
+	fetch('https://www.boredapi.com/api/activity')
+		.then(res => res.json())
+		.then(data => console.log(`Participants: ${data.participants}`))
+		.catch(err => console.log('Ошибка:', err));
 }
 
 //добавьте слушатель события
+document.querySelector('.b-5').addEventListener('click', makeFive);
 
 //Задание 6
 //Создайте функцию makeSix, которая делает запрос на адрес https://www.boredapi.com/api/activity. Выведите в консоль свойства из полученного объекта, такие как activity, type, price и accessibility.
 
 function makeSix() {
 	//Ваш код
+	fetch('https://www.boredapi.com/api/activity')
+		.then(res => res.json())
+		.then(data => {
+			console.log(`Activity: ${data.activity}`);
+			console.log(`Participants: ${data.participants}`);
+			console.log(`Price: ${data.price}`);
+			console.log(`Accessibility: ${data.accessibility}`);
+
+			return data;
+		})
+		.catch(err => console.log('Ошибка:', err));
 }
 
 document.querySelector('.b-6').addEventListener('click', makeSix);
@@ -57,15 +95,24 @@ document.querySelector('.b-6').addEventListener('click', makeSix);
 
 function makeSeven() {
 	//Ваш код
+	fetch('https://api.agify.io/')
+		.then(res => res.json())
+		.then(console.log)
+		.catch(err => console.log('Ошибка:', err));
 }
 
 //добавьте слушатель события
+document.querySelector('.b-7').addEventListener('click', makeSeven);
 
 //Задание 8
 //Создайте функцию makeEight, которая отправляет GET-запрос на адрес https://api.agify.io/ с параметром ?name=alice.
 
 function makeEight() {
 	//Ваш код
+	fetch('https://api.agify.io/?name=alice')
+		.then(res => res.json())
+		.then(console.log)
+		.catch(err => console.log('Ошибка:', err));
 }
 
 document.querySelector('.b-8').addEventListener('click', makeEight);
@@ -80,6 +127,7 @@ function makeNine() {
 		.then((data) => {
 			const resultElement = document.getElementById('result9');
 			//Ваш код
+			resultElement.innerHTML = JSON.stringify(data);
 		})
 		.catch((error) => {
 			console.error('Ошибка:', error);
@@ -87,12 +135,25 @@ function makeNine() {
 }
 
 //добавьте слушатель события
+document.querySelector('.b-9').addEventListener('click', makeNine);
 
 //Задание 10
 //Создайте функцию makeTen, которая делает запрос на адрес https://dog.ceo/api/breeds/image/random. Полученное изображение выведите после элемента с id "result10".
 
 function makeTen() {
 	//Ваш код
+	fetch('https://dog.ceo/api/breeds/image/random')
+		.then(res => res.json())
+		.then(data => {
+			const resultElement = document.querySelector("#result10");
+			const img = document.createElement("img");
+			img.src = data.message;
+			img.width = 300;
+			resultElement.append(img);
+
+			return data;
+		})
+		.catch(err => console.log('Ошибка:', err));
 }
 
 document.querySelector('.b-10').addEventListener('click', makeTen);
@@ -105,6 +166,10 @@ function makeEleven() {
 		.then((response) => response.json())
 		.then((data) => {
 			//Ваш код
+			const resultElement = document.querySelector("#result11");
+			resultElement.innerHTML = data.ip;
+
+			return data;
 		})
 		.catch((error) => {
 			console.error('Ошибка:', error);
@@ -118,6 +183,18 @@ document.querySelector('.b-11').addEventListener('click', makeEleven);
 
 function makeTwelve() {
 	//Ваш код
+	const inputElement = document.querySelector("#ipAddress");
+
+	if (!inputElement.value) {
+		alert("Введите IP-адрес");
+		return;
+	}
+
+	const ip = inputElement.value;
+	fetch(`https://api.ipgeolocationapi.com/geolocate/${ip}`)
+		.then(res => res.json())
+		.then(console.log)
+		.catch(err => console.log('Ошибка:', err));
 }
 
 document.querySelector('.b-12').addEventListener('click', makeTwelve);
@@ -127,9 +204,14 @@ document.querySelector('.b-12').addEventListener('click', makeTwelve);
 
 function makeThirteen() {
 	//Ваш код
+	fetch('https://official-joke-api.appspot.com/random_joke')
+		.then(res => res.json())
+		.then(console.log)
+		.catch(err => console.log('Ошибка:', err));
 }
 
 //добавьте слушатель события
+document.querySelector('.b-13').addEventListener('click', makeThirteen);
 
 //Задание 14
 //Создайте функцию makeFourteen, которая делает запрос на адрес https://official-joke-api.appspot.com/random_joke с помощью функции fetch() . Выведите на страницу информацию о шутке, используя поля "setup" и "punchline" из ответа сервера.
@@ -139,6 +221,10 @@ function makeFourteen() {
 		.then((response) => response.json())
 		.then((data) => {
 			//Ваш код
+			const resultElement = document.querySelector("#result14");
+			resultElement.innerHTML = `${data.setup} <br>${data.punchline}`;
+
+			return data;
 		})
 		.catch((error) => console.error('Ошибка:', error));
 }
@@ -160,6 +246,7 @@ function makeFifteen() {
 			'Content-Type': 'application/json',
 		},
 		//Ваш код
+		body: JSON.stringify(postData)
 	})
 		.then((response) => response.json())
 		.then((data) => console.log(data))
@@ -167,6 +254,7 @@ function makeFifteen() {
 }
 
 //добавьте слушатель события
+document.querySelector('.b-15').addEventListener('click', makeFifteen);
 
 //Задание 16
 //Создайте функцию makeSixteen, которая должна сделать PUT-запрос на адрес https://jsonplaceholder.typicode.com/posts/1 с помощью функции fetch(). Выведите ответ с сервера в консоль.
