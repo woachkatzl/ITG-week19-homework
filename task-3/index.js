@@ -4,7 +4,7 @@ const postsContainer = document.querySelector("#posts-container");
 const button = document.querySelector(".btn");
 
 // Функция создать новый пост
-const newPost = (title, text) => {
+const createNewPost = (title, text) => {
 
     //create html elements
     const newPost = document.createElement("div");
@@ -38,7 +38,7 @@ const addPostThroughServer = (title, text) => {
     })
         .then(response => response.json())
         .then(postObject => {
-            const post = newPost(postObject.title, postObject.body);
+            const post = createNewPost(postObject.title, postObject.body);
             postsContainer.append(post);
         })
         .catch(error => console.log("Ошибка: ", error));
@@ -53,8 +53,8 @@ const post = (event) => {
 
     addPostThroughServer(title, text);
 
-    titleInput.value = null;
-    textInput.value = null;
+    titleInput.value = "";
+    textInput.value = "";
 };
 
 button.addEventListener("click", post);

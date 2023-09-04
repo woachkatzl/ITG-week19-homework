@@ -28,6 +28,9 @@ const addPost = (post) => {
 const populatePosts = async () => {
     try {
         const response = await fetch("https://jsonplaceholder.typicode.com/posts/");
+        if (!response.ok) //Проверка ответа с сервера. Если сервер возвращает неудачный статус, вроде он не выбросит стандартную ошибку и нужно это делать вручную.
+            throw new Error(`Ошибка сети: ${response.statusText}`);
+
         const postsData = await response.json();
 
         postsData.forEach(postObject => {
